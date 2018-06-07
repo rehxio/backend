@@ -16,7 +16,7 @@ export const getNear = (point: Point) => {
            type: 'Point' ,
            coordinates: [ point.latitude, point.longitude ]
         },
-        $maxDistance: 600,
+        $maxDistance: 600
       }
     }
   };
