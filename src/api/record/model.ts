@@ -10,7 +10,7 @@ export interface RecordModel extends Document {
    id_user: Number;
    location: {
       type: [Number],
-      index: '2d'
+      index: '2dsphere'
    };
    created: Date;
    parked: Boolean;
@@ -19,7 +19,7 @@ export interface RecordModel extends Document {
 const RecordSchema: Schema = new Schema({
    id_vehicle: { type: Number, required: true },
    id_user: { type: Number, required: true },
-   location: { type: [Number], index: '2d' },
+   location: { type: [Number], index: '2dsphere' },
    created: { type: Date, default: Date.now() },
    parked: { type: Boolean },
 });
