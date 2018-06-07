@@ -8,7 +8,7 @@ export interface UserModel extends Document {
    created: Date;
 }
 
-const userSchema: Schema = new Schema({
+const UserSchema: Schema = new Schema({
    id_user: { type: Number, required: true },
    name: { type: String },
    mail: { type: String },
@@ -16,4 +16,4 @@ const userSchema: Schema = new Schema({
    created: { type: Date, default: Date.now() },
 });
 
-export const user: Model<UserModel> = model<UserModel>('user', userSchema);
+export const User: Model<UserModel> = model<UserModel>('user', UserSchema);

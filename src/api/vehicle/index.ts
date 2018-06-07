@@ -27,4 +27,5 @@ router.put('/:vehicleID', (req, res) => {
 router.delete('/:vehicleID', (req, res) => {
   deleteVehicle(req.params.vehicleID).then(() => res.send()).catch((err) => res.status(400).send(err));
 });
+
 export = router;

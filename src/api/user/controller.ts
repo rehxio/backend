@@ -1,22 +1,22 @@
-import { user } from './model';
+import { User } from './model';
 
 export const getUser = (userID) => {
-  return user.find({ id_user: { $in: [`${userID}`] } });
+  return User.find({ id_user: { $in: [`${userID}`] } });
 };
 
 export const getUsers = () => {
-  return user.find();
+  return User.find();
 };
 
 export const newUser = (user) => {
-  const userToCreate = new user({ ...user });
+  const userToCreate = new User({ ...user });
   return userToCreate.save();
 };
 
 export const updateUser = (user, userID) => {
-  return user.findOneAndUpdate({ id_user: { $in: [`${userID}`] } }, { $set: user }, { new: true });
+  return User.findOneAndUpdate({ id_user: { $in: [`${userID}`] } }, { $set: user }, { new: true });
 };
 
 export const deleteUser = (userID) => {
-  return user.findOneAndRemove({ id_user: { $in: [`${userID}`] } });
+  return User.findOneAndRemove({ id_user: { $in: [`${userID}`] } });
 };

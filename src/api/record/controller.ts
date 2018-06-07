@@ -1,22 +1,30 @@
-import { record } from './model';
+import { Record, Point } from './model';
 
 export const getRecord = (recordID) => {
-  return record.find({ id_record: { $in: [`${recordID}`] } }); }
-;
+  return Record.find({ id_record: { $in: [`${recordID}`] } });
+};
 
 export const getRecords = () => {
-  return record.find();
+  return Record.find();
+};
+
+export const getNear = (point: Point) => {
+  const query = {
+    location: {
+      $near: {
+        $geometry: {
+           type: 'Point' ,
+           coordinates: [ point.latitude, point.longitude ]
+        },
+        $maxDistance: 600,
+      }
+    }
+  };
+  return Record.find(query);
 };
 
 export const newRecord = (record) => {
-  const recordToCreate = new record({ ...record });
+  const recordToCreate = new Record({...record});
+
   return recordToCreate.save();
-};
-
-export const updateRecord = (record, recordID) => {
-  return record.findOneAndUpdate({ id_record: { $in: [`${recordID}`] } }, { $set: record }, { new: true });
-};
-
-export const deleteRecord = (recordID) => {
-  return record.findOneAndRemove({ id_record: { $in: [`${recordID}`] } });
 };

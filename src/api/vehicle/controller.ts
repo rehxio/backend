@@ -1,22 +1,22 @@
-import { vehicle } from './model';
+import { Vehicle } from './model';
 
 export const getVehicle = (vehicleID) => {
-  return vehicle.find({ id_vehicle: { $in: [`${vehicleID}`] } });
+  return Vehicle.find({ id_vehicle: { $in: [`${vehicleID}`] } });
 };
 
 export const getVehicles = () => {
-  return vehicle.find();
+  return Vehicle.find();
 };
 
 export const newVehicle = (vehicle) => {
-  const vehicleToCreate = new vehicle({ ...vehicle });
+  const vehicleToCreate = new Vehicle({ ...vehicle });
   return vehicleToCreate.save();
 };
 
 export const updateVehicle = (vehicle, vehicleID) => {
-  return vehicle.findOneAndUpdate({ id_user: { $in: [`${vehicleID}`] } }, { $set: vehicle }, { new: true });
+  return Vehicle.findOneAndUpdate({ id_user: { $in: [`${vehicleID}`] } }, { $set: vehicle }, { new: true });
 };
 
 export const deleteVehicle = (vehicleID) => {
-  return vehicle.findOneAndRemove({ id_vehicle: { $in: [`${vehicleID}`] } });
+  return Vehicle.findOneAndRemove({ id_vehicle: { $in: [`${vehicleID}`] } });
 };

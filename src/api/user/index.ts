@@ -23,7 +23,7 @@ router.put('/:userID', (req, res) => {
   updateUser(req.body, req.params.userID).then((user) => res.json(user)).catch((err) => res.status(400).send(err));
 });
 
-// Elimina una película concreta pasando el ID
+// Elimina un usuario concreto pasando el ID
 router.delete('/:userID', (req, res) => {
   deleteUser(req.params.userID).then(() => res.send()).catch((err) => res.status(400).send(err));
 });

@@ -8,7 +8,7 @@ export interface VehicleModel extends Document {
    created: Date;
 }
 
-const vehicleSchema: Schema = new Schema({
+const VehicleSchema: Schema = new Schema({
    id_vehicle: { type: Number, required: true },
    id_user: { type: Number, required: true },
    identifier: { type: String, required: true },
@@ -17,4 +17,4 @@ const vehicleSchema: Schema = new Schema({
 
 });
 
-export const vehicle: Model<VehicleModel> = model<VehicleModel>('vehicle', vehicleSchema);
+export const Vehicle: Model<VehicleModel> = model<VehicleModel>('vehicle', VehicleSchema);
