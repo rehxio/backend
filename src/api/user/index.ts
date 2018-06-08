@@ -1,12 +1,24 @@
 import * as express from 'express';
-import { getUser, getUsers, newUser , updateUser, deleteUser } from './controller';
+import { getUser, getUserID, getUsers, newUser, updateUser, deleteUser } from './controller';
 
 const router = express.Router();
 
+// Muestra un usuario buscando por name
+router.get('/search/:userName', (req, res) => {
+  getUser(req.params.userName).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
+});
+
+// Muestra un el ID de un usuario buscando por name
+router.get('/id/:userName', (req, res) => {
+  getUserID(req.params.userName, req).then(userID => res.send(userID)).catch((err) => res.status(500).send(err));
+});
+
+/* ***************************** Esta ya no sirve **********************************
 // Muestra un usuario identificado por id_user
 router.get('/:userID', (req, res) => {
   getUser(req.params.userID).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
 });
+*/
 
 // Muestra todos los usuarios
 router.get('/', (req, res) => {
@@ -19,13 +31,13 @@ router.post('/', (req, res) => {
 });
 
 // Actualiza la información de un usuario
-router.put('/:userID', (req, res) => {
-  updateUser(req.body, req.params.userID).then((user) => res.json(user)).catch((err) => res.status(400).send(err));
+router.put('/update', (req, res) => {
+  updateUser(req.body, req.session.userID).then((user) => res.json(user)).catch((err) => res.status(400).send(err));
 });
 
 // Elimina un usuario concreto pasando el ID
-router.delete('/:userID', (req, res) => {
-  deleteUser(req.params.userID).then(() => res.send()).catch((err) => res.status(400).send(err));
+router.delete('/delete', (req, res) => {
+  deleteUser(req.session.userID).then(() => res.send()).catch((err) => res.status(400).send(err));
 });
 
 export = router;

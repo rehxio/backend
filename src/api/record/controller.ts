@@ -1,4 +1,5 @@
 import { Record, Point } from './model';
+import { oneHourAgo } from '../../utils/Utils';
 
 export const getRecord = (recordID) => {
   return Record.find({ id_record: { $in: [`${recordID}`] } });
@@ -18,7 +19,8 @@ export const getNear = (point: Point) => {
         },
         $maxDistance: 600
       }
-    }
+    },
+    created: { $gte: oneHourAgo() } // Busca en el campo "created" el valor que sea mayor que lo que devuelve oneHourAgo
   };
   return Record.find(query);
 };

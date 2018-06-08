@@ -23,7 +23,7 @@ router.put('/:vehicleID', (req, res) => {
   updateVehicle(req.body, req.params.vehicleID).then((vehicle) => res.json(vehicle)).catch((err) => res.status(400).send(err));
 });
 
-// Elimina una película concreta pasando el ID
+// Elimina un vehiculo concreto pasando el ID
 router.delete('/:vehicleID', (req, res) => {
   deleteVehicle(req.params.vehicleID).then(() => res.send()).catch((err) => res.status(400).send(err));
 });
