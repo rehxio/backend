@@ -16,21 +16,15 @@ export const getUserID = (userName, req) => {
   });
 };
 
-/* ***************************** Esta ya no sirve *******************************
-export const getUser = (userID) => {
-  return User.find({ id_user: { $in: [`${userID}`] } });
-};
-*/
-
 // Obtiene todos los usuarios
 export const getUsers = () => {
   return User.find();
 };
 
-
 // Crea un nuevo usuario
-export const newUser = (user) => {
+export const newUser = (user, userID) => {
   const userToCreate = new User({ ...user });
+  userID = userToCreate._id;
   return userToCreate.save();
 };
 
@@ -41,5 +35,5 @@ export const updateUser = (user, userID) => {
 
 // Elimina el usuario cogiendo el _id del request
 export const deleteUser = (userID) => {
-  return User.findOneAndRemove({ id_user: { $in: [`${userID._id}`] } });
+  return User.findOneAndRemove({ _id: { $in: [`${userID._id}`] } });
 };

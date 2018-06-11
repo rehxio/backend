@@ -13,21 +13,14 @@ router.get('/id/:userName', (req, res) => {
   getUserID(req.params.userName, req).then(userID => res.send(userID)).catch((err) => res.status(500).send(err));
 });
 
-/* ***************************** Esta ya no sirve **********************************
-// Muestra un usuario identificado por id_user
-router.get('/:userID', (req, res) => {
-  getUser(req.params.userID).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
-});
-*/
-
 // Muestra todos los usuarios
 router.get('/', (req, res) => {
   getUsers().then((user) => res.json(user)).catch((err) => res.status(500).send(err));
 });
 
 // Añade un usuario nuevo
-router.post('/', (req, res) => {
-  newUser(req.body).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
+router.post('/add', (req, res) => {
+  newUser(req.body, req.session.userID).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
 });
 
 // Actualiza la información de un usuario

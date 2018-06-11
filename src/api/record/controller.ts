@@ -1,8 +1,12 @@
 import { Record, Point } from './model';
 import { oneHourAgo } from '../../utils/Utils';
 
-export const getRecord = (recordID) => {
-  return Record.find({ id_record: { $in: [`${recordID}`] } });
+export const getRecordUser = (userID) => {
+  return Record.find({ id_user: { $in: [`${userID._id}`] } });
+};
+
+export const getRecordVehicle = (vehicleID) => {
+  return Record.find({ id_vehicle: { $in: [`${vehicleID._id}`] } });
 };
 
 export const getRecords = () => {
@@ -25,8 +29,9 @@ export const getNear = (point: Point) => {
   return Record.find(query);
 };
 
-export const newRecord = (record) => {
+export const newRecord = (record, userID, vehicleID) => {
   const recordToCreate = new Record({...record});
-
+  recordToCreate.id_user = userID;
+  recordToCreate.id_vehicle = vehicleID;
   return recordToCreate.save();
 };

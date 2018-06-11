@@ -6,8 +6,8 @@ export interface Point {
 }
 
 export interface RecordModel extends Document {
-   id_vehicle: Number;
-   id_user: Number;
+   id_vehicle: String;
+   id_user: String;
    location: {
       type: [Number],
       index: '2dsphere'
@@ -17,8 +17,8 @@ export interface RecordModel extends Document {
 }
 
 const RecordSchema: Schema = new Schema({
-   id_vehicle: { type: Number, required: true },
-   id_user: { type: Number, required: true },
+   id_vehicle: { type: String, required: true },
+   id_user: { type: String, required: true },
    location: { type: [Number], index: '2dsphere' },
    created: { type: Date, default: Date.now() },
    parked: { type: Boolean },
