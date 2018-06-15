@@ -6,6 +6,7 @@ import * as methodOverride from 'method-override';
 import * as compression from 'compression';
 import * as notifier from 'node-notifier';
 import { connect } from 'mongoose';
+import * as cors from 'cors';
 
 import * as userRouter from './api/user/index';
 import * as vehicleRouter from './api/vehicle/index';
@@ -49,7 +50,7 @@ app.get('/', (req, res, next) => {
 app.use(methodOverride());
 app.use(errorHandler);*/
 
-
+app.use(cors());
 app.use(express.json());
 connect('mongodb://127.0.0.1:27017/pruebadb');
 app.use('/user', userRouter);

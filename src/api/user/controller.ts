@@ -16,6 +16,22 @@ export const getUserID = (userName, req) => {
   });
 };
 
+// Comprueba el inicio de sesión si existe el usuario y contraseña
+// ********************* Terminar esto ***************************
+export const login = (body) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ name: body.name , password: body.password })
+    .then((user) => {
+      if (user !== null) {
+        resolve('usuario valido');
+      } else {
+        reject(401);
+      }
+    })
+    .catch(err => reject(err));
+  });
+};
+
 // Obtiene todos los usuarios
 export const getUsers = () => {
   return User.find();

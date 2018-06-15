@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { getUser, getUserID, getUsers, newUser, updateUser, deleteUser } from './controller';
+import { getUser, getUserID, login, getUsers, newUser, updateUser, deleteUser } from './controller';
 
 const router = express.Router();
 
@@ -11,6 +11,12 @@ router.get('/search/:userName', (req, res) => {
 // Muestra un el ID de un usuario buscando por name
 router.get('/id/:userName', (req, res) => {
   getUserID(req.params.userName, req).then(userID => res.send(userID)).catch((err) => res.status(500).send(err));
+});
+
+// Comprueba el inicio de sesión si existe el usuario y contraseña
+// ************************* Terminar esto*************************
+router.post('/login', (req, res) => {
+  login(req.body).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
 });
 
 // Muestra todos los usuarios
