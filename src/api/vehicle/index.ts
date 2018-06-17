@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as passport from 'passport';
 import { getVehicleID, getVehicles, newVehicle, updateVehicle, deleteVehicle } from './controller';
 
 const router = express.Router();
@@ -14,13 +15,16 @@ router.get('/id', (req, res) => {
 });
 
 // Muestra todos los vehiculos
-router.get('/all', (req, res) => {
-  getVehicles().then((vehicle) => res.json(vehicle)).catch((err) => res.status(500).send(err));
+router.get('/all', passport.authenticate('bearer', { session: false }), (req: any, res) => {
+  const userId = req.user._id; // al pasar por el passport en req.user tenemos el usuario
+  getVehicles(userId).then((vehicle) => res.json(vehicle)).catch((err) => res.status(500).send(err));
 });
 
 // Añade un vehiculo nuevo al id del usuario
-router.post('/add', (req, res) => {
-  newVehicle(req.body, req.session.userID).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
+router.post('/add', passport.authenticate('bearer', { session: false }), (req: any, res) => {
+  const userId = req.user._id; // al pasar por el passport en req.user tenemos el usuario
+  // Creamos el nuevo vehículo al usuario con id userId
+  newVehicle(req.body, userId).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
 });
 
 // Actualiza la información de un vehiculo

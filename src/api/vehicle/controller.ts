@@ -15,9 +15,9 @@ export const getVehicleID = (req) => {
   });
 };
 
-export const getVehicles = () => {
-  return Vehicle.find();
-};
+export function getVehicles(userId: string) {
+  return Vehicle.find({ id_user: userId });
+}
 
 export function newVehicle(vehicle: VehicleModel, userID: string) {
   const vehicleToCreate = new Vehicle({ ...vehicle });

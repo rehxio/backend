@@ -1,5 +1,6 @@
 import { User, UserModel } from './model';
 import { Promise } from 'mongoose';
+import { v1 as uuid } from 'uuid';
 
 // Devuelve todo el usuario buscando por nombre
 export const getUser = (userName) => {
@@ -20,7 +21,21 @@ export const getUserID = (userName, req) => {
 // ********************* Terminar esto ***************************
 // Es más práctico si está función solo devuelve el usuario si lo encuentra y si no devuelva undefined
 export function login(name: string, password: string): Promise<UserModel> {
-  return User.findOne({ name, password });
+  return new Promise((resolve, reject) => {
+    User.findOne({ name, password }).then(user => {
+      // Si encontramos el usuario en la base de datos, le generamos un nuevo token de auth
+      const newAuthToken = uuid();
+      // Actualizamos el usuario con el nuevo token
+      User.update({ _id: user._id }, { token: newAuthToken }).then(() => {
+        const result = user;
+        result.token = newAuthToken;
+        resolve(result);
+      }).catch(err => {
+        console.error('Error guardando el nuevo token', err);
+        reject('Ups! algo ha fallado');
+      });
+    }).catch(err => reject(err));
+  });
 }
 
 // Obtiene todos los usuarios

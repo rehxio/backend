@@ -15,27 +15,18 @@ router.get('/id/:userName', (req, res) => {
 
 // Comprueba el inicio de sesión si existe el usuario y contraseña
 // ************************* Terminar esto*************************
-// Una vez el usuario haga login tenemos que hacer lo siguiente:
-// 1. Le metemos una cookie con el valor del session
-// 2. Guardamos en session los datos del usuario que más vamos a usar (userId, email...)
-// 3. El resto de peticiones que nos haga deberemos de verificar que tiene el userId válido
 router.post('/login', (req, res) => {
-  login(req.body.name, req.body.password).then(user => {
-    if (user) {
-      // Si encontramos el usuario en la base de datos, Lo guardamos en la session
-      req.session.userID = user._id;
-      req.session.userMail = user.mail;
-      // TODO aquí no deberíamos de enviarle el campo contraseña por ejemplo
-      res.send(user);
-    } else {
-      // No es un usuario válido
-      res.status(401).send('Invalid login');
-    }
-  }).catch(err => res.status(500).send(err));
+  login(req.body.name, req.body.password).then(user => res.json(user)).catch(err => res.status(500).send(err));
 });
 
 // Muestra todos los usuarios
 router.get('/', (req, res) => {
+  console.log('req.session.userID', req.session.userID);
+  getUsers().then((user) => res.json(user)).catch((err) => res.status(500).send(err));
+});
+
+router.get('/test', (req, res) => {
+  req.session.userID = '25';
   getUsers().then((user) => res.json(user)).catch((err) => res.status(500).send(err));
 });
 

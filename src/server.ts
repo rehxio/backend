@@ -1,16 +1,23 @@
 import * as express from 'express';
 import * as morgan from 'morgan';
-import * as request from 'superagent';
 import * as session from 'express-session';
-import * as methodOverride from 'method-override';
 import * as compression from 'compression';
-import * as notifier from 'node-notifier';
 import { connect } from 'mongoose';
 import * as cors from 'cors';
 
 import * as userRouter from './api/user/index';
 import * as vehicleRouter from './api/vehicle/index';
 import * as recordRouter from './api/record/index';
+import * as passport from 'passport';
+import { Strategy } from 'passport-http-bearer';
+import { User } from './api/user/model';
+
+// Seguridad con basic
+passport.use(new Strategy((token, cb) => {
+  User.findOne({ token }).then(user => {
+    cb(undefined, user);
+  }).catch(err => cb(err));
+}));
 
 const app = express();
 
@@ -32,6 +39,11 @@ app.get('/', (req, res, next) => {
   }
 });
 
+
+app.get('/tl', passport.authenticate('bearer', { session: false }),
+  (req, res) => {
+    res.json({ user: req });
+  });
 
 
 /*const errorHandler = (error, req, res, next) => {
