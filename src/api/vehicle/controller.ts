@@ -1,4 +1,4 @@
-import { Vehicle } from './model';
+import { Vehicle, VehicleModel } from './model';
 import { Promise } from 'mongoose';
 
 /*
@@ -19,11 +19,11 @@ export const getVehicles = () => {
   return Vehicle.find();
 };
 
-export const newVehicle = (vehicle, userID) => {
+export function newVehicle(vehicle: VehicleModel, userID: string) {
   const vehicleToCreate = new Vehicle({ ...vehicle });
   vehicleToCreate.id_user = userID;
   return vehicleToCreate.save();
-};
+}
 
 export const updateVehicle = (vehicle, vehicleID) => {
   return Vehicle.findOneAndUpdate({ _id: { $in: [`${vehicleID._id}`] } }, { $set: vehicle }, { new: true });

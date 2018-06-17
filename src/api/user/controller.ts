@@ -1,4 +1,4 @@
-import { User } from './model';
+import { User, UserModel } from './model';
 import { Promise } from 'mongoose';
 
 // Devuelve todo el usuario buscando por nombre
@@ -18,19 +18,10 @@ export const getUserID = (userName, req) => {
 
 // Comprueba el inicio de sesión si existe el usuario y contraseña
 // ********************* Terminar esto ***************************
-export const login = (body) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ name: body.name , password: body.password })
-    .then((user) => {
-      if (user !== null) {
-        resolve('usuario valido');
-      } else {
-        reject(401);
-      }
-    })
-    .catch(err => reject(err));
-  });
-};
+// Es más práctico si está función solo devuelve el usuario si lo encuentra y si no devuelva undefined
+export function login(name: string, password: string): Promise<UserModel> {
+  return User.findOne({ name, password });
+}
 
 // Obtiene todos los usuarios
 export const getUsers = () => {
