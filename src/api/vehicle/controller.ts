@@ -15,8 +15,8 @@ export const getVehicleID = (req) => {
   });
 };
 
-export const getVehicles = () => {
-  return Vehicle.find();
+export const getVehicles = (userID: string) => {
+  return Vehicle.find({ id_user: userID });
 };
 
 export const newVehicle = (vehicle, userID) => {

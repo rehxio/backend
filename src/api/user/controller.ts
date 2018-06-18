@@ -1,5 +1,6 @@
-import { User } from './model';
+import { User, UserModel } from './model';
 import { Promise } from 'mongoose';
+import { v1 as uuid } from 'uuid';
 
 // Devuelve todo el usuario buscando por nombre
 export const getUser = (userName) => {
@@ -17,7 +18,23 @@ export const getUserID = (userName, req) => {
 };
 
 // Comprueba el inicio de sesión si existe el usuario y contraseña
-// ********************* Terminar esto ***************************
+export const login = (name: string , password: string): Promise<UserModel> => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ name, password })
+    .then(user => {
+      const newAuthToken = uuid();
+      User.update({ _id: user._id }, { token: newAuthToken }).then(() => {
+        const result = user;
+        result.token = newAuthToken;
+        resolve(result);
+      }).catch(err => {
+        console.error('Error guardando el nuevo token', err);
+        reject('Ups! algo ha fallado');
+      });
+    }).catch(err => reject(err));
+  });
+};
+/*
 export const login = (body) => {
   return new Promise((resolve, reject) => {
     User.findOne({ name: body.name , password: body.password })
@@ -30,7 +47,7 @@ export const login = (body) => {
     })
     .catch(err => reject(err));
   });
-};
+};*/
 
 // Obtiene todos los usuarios
 export const getUsers = () => {

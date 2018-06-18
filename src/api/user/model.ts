@@ -6,6 +6,7 @@ export interface UserModel extends Document {
    mail: string;
    updated: Date;
    created: Date;
+   token: string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -14,6 +15,7 @@ const UserSchema: Schema = new Schema({
    mail: { type: String, required: true },
    updated: { type: Date, default: Date.now() },
    created: { type: Date, default: Date.now() },
+   token: { type: String }
 });
 
 export const User: Model<UserModel> = model<UserModel>('user', UserSchema);

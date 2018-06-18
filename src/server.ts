@@ -1,18 +1,24 @@
 import * as express from 'express';
 import * as morgan from 'morgan';
-import * as request from 'superagent';
 import * as session from 'express-session';
-import * as methodOverride from 'method-override';
 import * as compression from 'compression';
-import * as notifier from 'node-notifier';
 import { connect } from 'mongoose';
 import * as cors from 'cors';
+import * as passport from 'passport';
+import { Strategy } from 'passport-http-bearer';
+import { User } from './api/user/model';
 
 import * as userRouter from './api/user/index';
 import * as vehicleRouter from './api/vehicle/index';
 import * as recordRouter from './api/record/index';
 
 const app = express();
+
+passport.use(new Strategy((token, cb) => {
+  User.findOne({ token }).then(user => {
+    cb(undefined, user);
+  }).catch(err => cb(err));
+}));
 
 // Morgan
 app.use(morgan('combined'));
@@ -32,23 +38,10 @@ app.get('/', (req, res, next) => {
   }
 });
 
-
-
-/*const errorHandler = (error, req, res, next) => {
-  if (!error) {
-    return next();
-  }
-  const message = `Error en ${req.method}, en la URL: ${req.url}`;
-  console.log (request.post);
-  request.post('SLACK_URL')
-    .send({ text: 'Algo ha petado :monkey_face:', username: 'monkey-bot', icon_emoji: ':monkey_face:'})
-    .end((err) => {
-      next(err);
-    });
-};
-
-app.use(methodOverride());
-app.use(errorHandler);*/
+app.get('/tl', passport.authenticate('bearer', { session: false }),
+  (req, res) => {
+    res.json({ user: req });
+  });
 
 app.use(cors());
 app.use(express.json());

@@ -14,9 +14,8 @@ router.get('/id/:userName', (req, res) => {
 });
 
 // Comprueba el inicio de sesión si existe el usuario y contraseña
-// ************************* Terminar esto*************************
 router.post('/login', (req, res) => {
-  login(req.body).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
+  login(req.body.name, req.body.password).then((user) => res.json(user)).catch((err) => res.status(500).send(err));
 });
 
 // Muestra todos los usuarios
