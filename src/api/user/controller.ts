@@ -10,7 +10,8 @@ export const getUser = (userName) => {
 // Devuelve el _id del usuario habiendo buscado por nombre
 export const getUserID = (userName, req) => {
   return new Promise((resolve, reject) => {
-    User.find({ name: { $in: [`${userName}`] } }).then(users => {
+    User.find({ name: { $in: [`${userName}`] } })
+    .then(users => {
       req.session.userID = { _id: users[0]._id };
       resolve(req.session.userID);
     }).catch(err => reject(err));
@@ -34,20 +35,6 @@ export const login = (name: string , password: string): Promise<UserModel> => {
     }).catch(err => reject(err));
   });
 };
-/*
-export const login = (body) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ name: body.name , password: body.password })
-    .then((user) => {
-      if (user !== null) {
-        resolve('usuario valido');
-      } else {
-        reject(401);
-      }
-    })
-    .catch(err => reject(err));
-  });
-};*/
 
 // Obtiene todos los usuarios
 export const getUsers = () => {

@@ -7,6 +7,7 @@ import * as cors from 'cors';
 import * as passport from 'passport';
 import { Strategy } from 'passport-http-bearer';
 import { User } from './api/user/model';
+import * as ENV from '../config/env';
 
 import * as userRouter from './api/user/index';
 import * as vehicleRouter from './api/vehicle/index';
@@ -45,7 +46,7 @@ app.get('/tl', passport.authenticate('bearer', { session: false }),
 
 app.use(cors());
 app.use(express.json());
-connect('mongodb://127.0.0.1:27017/pruebadb');
+connect(ENV.DB);
 app.use('/user', userRouter);
 app.use('/vehicle', vehicleRouter);
 app.use('/record', recordRouter);
