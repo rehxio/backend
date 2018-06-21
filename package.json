@@ -7,6 +7,7 @@
 		"build": "webpack --config ./webpack.config.js",
 		"devback": "webpack-dev-server --mode development",
 		"tsdev": "nodemon --watch '**/*.ts' --exec ts-node src/server.ts",
+		"tsapi": "nodemon '**/*.ts' --exec ts-node src/server.ts",
 		"start": "node dist/bundle.js",
 		"test": "jest --watch",
 		"lint": "tslint -p ./tsconfig.json"
