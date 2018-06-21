@@ -29,9 +29,16 @@ export const getNear = (point: Point) => {
   return Record.find(query);
 };
 
-export const newRecord = (record, userID, vehicleID) => {
-  const recordToCreate = new Record({...record});
-  recordToCreate.id_user = userID;
-  recordToCreate.id_vehicle = vehicleID;
+export const newRecord = (record) => {
+  console.log(record);
+  const recordToCreate = new Record({
+    id_vehicle: record.id,
+    id_user: record.id_user,
+    location: [
+      record.lat,
+      record.lng
+  ]
+  });
+  console.log(recordToCreate);
   return recordToCreate.save();
 };

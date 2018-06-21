@@ -27,7 +27,7 @@ router.post('/near', (req: any, res) => {
 
 // Añade una localización nueva pasando la información en el json del body
 router.post('/add', (req, res) => {
-  newRecord(req.body, req.session.userID, req.session.vehicleID).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
+  newRecord(req.body).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
 });
 
 export = router;
